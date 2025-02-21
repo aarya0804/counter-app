@@ -8,12 +8,11 @@ import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 
 /**
  * `counter-app`
- * 
+ *
  * @demo index.html
  * @element counter-app
  */
 export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
-
   static get tag() {
     return "counter-app";
   }
@@ -21,6 +20,8 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.count = 0;
+    this.min = 0;
+    this.max = 21;
     this.t = this.t || {};
     this.t = {
       ...this.t,
@@ -29,8 +30,7 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
     this.registerLocalization({
       context: this,
       localesPath:
-        new URL("./locales/counter-app.ar.json", import.meta.url).href +
-        "/../",
+        new URL("./locales/counter-app.ar.json", import.meta.url).href + "/../",
       locales: ["ar", "es", "hi", "zh"],
     });
   }
@@ -40,41 +40,50 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       count: { type: Number, reflect: true },
+      min: { type: Number },
+      max: { type: Number },
     };
   }
 
   // Lit scoped styles
   static get styles() {
-    return [super.styles,
-    css`
-      :host {
-        display: block;
-        color: var(--ddd-theme-primary);
-        background-color: var(--ddd-theme-accent);
-        font-family: var(--ddd-font-navigation);
-      }
+    return [
+      super.styles,
+      css`
+        :host {
+          display: block;
+          width: var(--ddd-m-8);
+          color: var(--ddd-theme-primary);
+          background-color: var(--ddd-theme-accent);
+          font-family: var(--ddd-font-navigation);
+        }
 
-      :host([count="10"]) 
-      {
-        color: var(--ddd-theme-default-athertonViolet);
-      }
+        :host([count="18"]) {
+          color: var(--ddd-theme-default-athertonViolet);
+        }
+        :host([count="21"]) {
+          color: blue;
+        }
 
-      .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
-      }
-      .counter{
-        font-size: var(--counter-app-label-font-size, var(--ddd-font-size-xxl));
-      }
-    `];
+        .wrapper {
+          margin: var(--ddd-spacing-2);
+          padding: var(--ddd-spacing-4);
+        }
+        .counter {
+          font-size: var(
+            --counter-app-label-font-size,
+            var(--ddd-font-size-xxl)
+          );
+        }
+      `,
+    ];
   }
-
 
   updated(changedProperties) {
     super.updated(changedProperties);
     if (changedProperties.has("count")) {
       console.log("count changed to: ", this.count);
-      if (this.count===21) {
+      if (this.count === 21) {
         this.makeItRain();
       }
     }
@@ -100,30 +109,36 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
     );
   }
 
-
   // Lit render the HTML
   render() {
     return html`
-    <confetti-container id="confetti" class="wrapper">
-      <div class="counter">${this.count}</div>
-      <div class="buttons">
-        <button @click="${this.decrease}">-1</button>
-        <button @click="${this.increase}">+1</button>
-      </div>
-    </confetti-container>
-  `;
+      <confetti-container id="confetti" class="wrapper">
+        <div class="counter">${this.count}</div>
+        <div class="buttons">
+          <button
+            ?disabled="${this.min === this.count}"
+            @click="${this.decrease}"
+          >
+            -1
+          </button>
+          <button
+            ?disabled="${this.max === this.count}"
+            @click="${this.increase}"
+          >
+            +1
+          </button>
+        </div>
+      </confetti-container>
+    `;
   }
 
-  increase()
-  {
+  increase() {
     this.count++;
   }
-  decrease()
-  {
+  decrease() {
     this.count--;
   }
-  reset()
-  {
+  reset() {
     this.count = 0;
   }
 

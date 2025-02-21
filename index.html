@@ -1,43 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <base href="/" />
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="Description" content="Demonstration for counter-app" />
 
-<head>
-  <base href="/">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="Description" content="Demonstration for counter-app">
+    <style>
+      :root,
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #demo {
+        margin: var(--ddd-spacing-2);
+      }
+      counter-app {
+        margin: var(--ddd-spacing-2);
+        border: var(--ddd-border-md);
+        border-radius: var(--ddd-radius-lg);
+      }
+      counter-app:hover {
+        box-shadow: var(--ddd-boxShadow-sm);
+      }
+      #example {
+        --counter-app-font-size: var(--ddd-font-size-l);
+        background-color: var(--ddd-accent-2);
+        color: var(--ddd-primary-17);
+      }
+    </style>
+    <title>counter-app</title>
+  </head>
 
-  <style>
-    :root, html, body {
-      margin: 0;
-      padding: 0;
-    }
-    #demo {
-      margin: var(--ddd-spacing-2);
-    }
-    counter-app {
-      margin: var(--ddd-spacing-2);
-      border: var(--ddd-border-md);
-      border-radius: var(--ddd-radius-lg);
-    }
-    counter-app:hover {
-      box-shadow: var(--ddd-boxShadow-sm);
-    }
-    #example {
-      --counter-app-font-size: var(--ddd-font-size-l);
-      background-color: var(--ddd-accent-2);
-      color: var(--ddd-primary-17);
-    }
-  </style>
-  <title>counter-app</title>
-</head>
-
-<body>
-  <div id="demo">
-    <h1>counter-app</h1>
-    <counter-app></counter-app>
-    <counter-app counter="16" min="10" max="25"></counter-app>
+  <body>
+    <div id="demo">
+      <h1>counter-app</h1>
+      <counter-app></counter-app>
+      <counter-app count="16" min="10" max="25"></counter-app>
     </div>
-  <script type="module" src="./counter-app.js"></script>
-</body>
+    <script type="module" src="./counter-app.js"></script>
+  </body>
 </html>
