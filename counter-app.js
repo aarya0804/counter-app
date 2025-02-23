@@ -62,7 +62,7 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
           color: var(--ddd-theme-default-athertonViolet);
         }
         :host([count="21"]) {
-          color: blue;
+          color: orange;
         }
 
         .wrapper {
