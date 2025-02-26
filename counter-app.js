@@ -52,6 +52,7 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
       css`
         :host {
           display: block;
+          width: 200px;
           width: var(--ddd-m-8);
           color: var(--ddd-theme-primary);
           background-color: var(--ddd-theme-accent);
@@ -68,12 +69,23 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
         .wrapper {
           margin: var(--ddd-spacing-2);
           padding: var(--ddd-spacing-4);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
         }
         .counter {
           font-size: var(
             --counter-app-label-font-size,
             var(--ddd-font-size-xxl)
           );
+        }
+        .min {
+          color: var(--ddd-theme-default-pughBlue);
+        }
+
+        .max {
+          color: var(--ddd-theme-default-keystoneYellow);
         }
       `,
     ];
@@ -121,6 +133,7 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
           >
             -1
           </button>
+          <button @click="${this.reset}">Reset</button>
           <button
             ?disabled="${this.max === this.count}"
             @click="${this.increase}"
@@ -134,12 +147,24 @@ export class CounterApp extends DDDSuper(I18NMixin(LitElement)) {
 
   increase() {
     this.count++;
+    if (this.count === this.max) {
+      this.shadowRoot.querySelector(".counter").classList.add("max");
+    }
+    if (this.count !== this.min) {
+      this.shadowRoot.querySelector(".counter").classList.remove("min");
+    }
   }
   decrease() {
     this.count--;
+    if (this.count === this.min) {
+      this.shadowRoot.querySelector(".counter").classList.add("min");
+    }
+    if (this.count !== this.max) {
+      this.shadowRoot.querySelector(".counter").classList.remove("max");
+    }
   }
   reset() {
-    this.count = 0;
+    this.count = this.min;
   }
 
   /**
